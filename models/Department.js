@@ -14,6 +14,10 @@ class Department {
             else departments = result;
         });
     }
+
+    static getId(name) {
+        return departments.find((aDep) => aDep.name == name).id;
+    }
     
     static get() {
         return departments.map((aDep) => aDep.name);

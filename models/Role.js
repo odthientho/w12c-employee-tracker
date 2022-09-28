@@ -21,6 +21,10 @@ class Role {
         return roles.map((aRole) => aRole.title);
     }
 
+    static getId(title) {
+        return roles.find((aRole) => aRole.title == title).id;
+    }
+
     static view() {
         console.table(roles);
     }
@@ -40,7 +44,7 @@ class Role {
         db.query("DELETE FROM role WHERE title = ?;", title, (error, result) => {
             if (error) console.log("Error: Delete Table.");
             else {
-                console.log("Department Deleted: " + title);
+                console.log("Role Deleted: " + title);
                 this.updateAll();
             }
         });

@@ -18,7 +18,11 @@ const actions = [{
                 "Delete A Role", 
                 'View All Departments', 
                 "Add A Department", 
-                "Delete A Department", 
+                "Delete A Department",
+                "Update Employee Managers",
+                "View Employees By Manager",
+                "View Employees By Department",
+                "View Total Utilized Budget Of A Department",
                 "Quit"
             ]
 }];
@@ -32,6 +36,7 @@ async function promptActions() {
         case "View All Employees":
             employee.view();
             break;
+            
         case "Add An Employee":
             var addingEmployee = await prompt([{
                 type: "input",
@@ -54,6 +59,7 @@ async function promptActions() {
             }]);
             employee.add(addingEmployee.firstName, addingEmployee.lastName, addingEmployee.role, addingEmployee.manager);
             break;
+
         case "Update Employee Role":
             var updatingEmployee = await prompt([{
                 type: "list",
@@ -66,8 +72,9 @@ async function promptActions() {
                 message: "Please pick the role that the employee belongs to.",
                 choices: role.get()
             }]);
-            employee.update(updatingEmployee.name, updatingEmployee.role);
+            employee.updateRole(updatingEmployee.name, updatingEmployee.role);
             break;
+
         case "Delete An Employee":
             var deletingEmployee = await prompt([{
                 type: "list",
@@ -77,9 +84,11 @@ async function promptActions() {
             }]);
             employee.delete(deletingEmployee.name);
             break;
+
         case "View All Roles":
             role.view();
             break;
+
         case "Add A Role":
             var addingRole = await prompt([{
                 type: "input",
@@ -97,6 +106,7 @@ async function promptActions() {
             }]);
             role.add(addingRole.title, addingRole.salary, addingRole.department);
             break;
+
         case "Delete A Role":
             var deletingRole = await prompt([{
                 type: "list",
@@ -106,9 +116,11 @@ async function promptActions() {
             }]);
             role.delete(deletingRole.name);
             break;
+
         case "View All Departments":
             department.view();
             break;
+
         case "Add A Department":
             var addingDep = await prompt([{
                 type: "input",
@@ -117,6 +129,7 @@ async function promptActions() {
             }]);
             department.add(addingDep.name);
             break;
+
         case "Delete A Department":
             var deletingDep = await prompt([{
                 type: "list",
@@ -125,6 +138,51 @@ async function promptActions() {
                 choices: department.get()
             }]);
             department.delete(deletingDep.name);
+            break;
+
+        case "Update Employee Managers":
+            var updatingEmployee = await prompt([{
+                type: "list",
+                name: "name",
+                message: "Please pick the employee you want to update manager.",
+                choices: employee.get()
+            }, {
+                type: "list",
+                name: "manager",
+                message: "Please pick a new manager.",
+                choices: employee.get()
+            }])
+            employee.updateManager(updatingEmployee.name, updatingEmployee.manager);
+            break;
+
+        case "View Employees By Manager":
+            var managerChoice = await prompt([{
+                type: "list",
+                name: "manager",
+                message: "Please pick a manager.",
+                choices: employee.getManager()
+            }]);
+            employee.viewByManager(managerChoice.manager);
+            break;
+
+        case "View Employees By Department":
+            var depChoice = await prompt([{
+                type: "list",
+                name: "department",
+                message: "Please pick a department.",
+                choices: department.get()
+            }]);
+            employee.viewByDepartment(depChoice.department);
+            break;
+
+        case "View Total Utilized Budget Of A Department":
+            var depChoice = await prompt([{
+                type: "list",
+                name: "department",
+                message: "Please pick a department.",
+                choices: department.get()
+            }]);
+            employee.viewBudget(depChoice.department);
             break;
     }
 

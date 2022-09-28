@@ -42,7 +42,7 @@ class Employee {
         });
     }
 
-    static update(name, roleTitle) {
+    static updateRole(name, roleTitle) {
         db.query("UPDATE employee SET role_id = ? WHERE id = ?;", [role.getId(roleTitle), this.getId(name)], (error, results) => {
             if (error) console.log("Error: Update Table.");
             else {
@@ -60,6 +60,34 @@ class Employee {
                 this.updateAll();
             }
         });
+    }
+
+    static updateManager(name, manager) {
+        db.query("UPDATE employee SET manager_id = ? WHERE id = ?;", [this.getId(manager), this.getId(name)], (error, results) => {
+            if (error) console.log("Error: Update Table.");
+            else {
+                console.log(name + "'s manager updated: " + manager);
+                this.updateAll();
+            }
+        });
+    }
+
+    static getManager() {
+        return employees.filter((anEmployee) => anEmployee.manager !== null).map((col) => col.manager);
+    }
+
+    static viewByManager(manager) {
+        console.table(employees.filter((anEmployee) => anEmployee.manager == manager));
+    }
+
+    static viewByDepartment(department) {
+        console.table(employees.filter((anEmployee) => anEmployee.department == department));
+    }
+
+    static viewBudget(department) {
+        let totalBudget = 0;
+        employees.filter((anEmployee) => anEmployee.department == department).forEach((anEmployee) => totalBudget += parseInt(anEmployee.salary));
+        console.log(totalBudget);
     }
 }
 
